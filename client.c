@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:25:38 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 12:30:06 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:32:29 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	send_char(char c, int server_pid)
 	bitmask = 128;
 	while (bitmask != 0)
 	{
-		usleep(500);
+		usleep(1000);
 		if (bitmask & c)
 			kill(server_pid, SIGUSR1);
 		else

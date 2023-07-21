@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 12:31:53 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:52:04 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char*	g_text;
 void	handler(int signum, siginfo_t *info, void *ucontext)
 {
 	static unsigned char	bit = 128;
-	static int				bit_counter = 0;
 	char					*tmp;
 	static size_t			text_index = 0;
 
@@ -40,10 +39,9 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 		g_text = malloc(sizeof(char)*1);
 		g_text[0] = '\0';
 	}
-	if (bit_counter == 8)
+	if (bit == 0)
 	{
 		bit = 128;
-		bit_counter = 0;
 		if (g_text[text_index] == '\0')
 		{
 			write(1, g_text, text_index + 1);
@@ -62,20 +60,10 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 			free(tmp);
 		}
 	}
-	if (signum == SIGUSR1)
-	{
+	if  (signum == SIGUSR1)
 		g_text[text_index] = g_text[text_index] | bit;
-		bit = bit >> 1;
-		bit_counter++;
-		pause();
-	}
-	if (signum == SIGUSR2)
-	{
-		bit = bit >> 1;
-		bit_counter++;
-		pause();
-	}
-	write(2, "Error! Must use SIGUSR1 or SIGUSR2!\n", 37);
+	bit = bit >> 1;
+	pause();
 }
 
 void	set_signals(void (*hndlr)(int, siginfo_t*, void*), struct sigaction sa)
@@ -96,7 +84,6 @@ int	main(void)
 	set_signals(handler, sa);
 	printf("Server PID: %d\n", server_pid);
 	pause();
-	free(g_text);
 	return (0);
 }
 
