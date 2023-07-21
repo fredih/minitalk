@@ -6,12 +6,12 @@
 #    By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 22:50:02 by aantonio          #+#    #+#              #
-#    Updated: 2023/07/15 10:39:05 by aantonio         ###   ########.fr        #
+#    Updated: 2023/07/21 12:18:18 by aantonio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC := gcc
-CFLAGS := -Wall -Wextra 
+CFLAGS := -Wall -Wextra -Werror
 RM = rm -rf
 PROGRAM1    := server
 PROGRAM2    := client

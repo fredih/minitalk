@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 12:11:50 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:20:51 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,16 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 	char					*tmp;
 	static size_t			text_index = 0;
 
+	if (text_index == 0 && bit == 128)
+	{
+		write(1,"Setting malloc!", 16);
+		g_text = malloc(sizeof(char)*1);
+		g_text[0] = '\0';
+	}
 	if (bit_counter == 8)
 	{
+		bit = 128;
+		bit_counter = 0;
 		if (g_text[text_index] == '\0')
 		{
 			write(1, "\n", 1);
@@ -44,7 +52,8 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 			write(1, "\n", 1);
 			free(g_text);
 			kill(info->si_pid, SIGUSR2);
-			exit(0);
+			text_index = 0;
+			pause();
 		}
 		else
 		{
@@ -53,8 +62,6 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 			g_text = malloc(sizeof(char)*text_index + 1);
 			strncpy(g_text, tmp, text_index);
 			free(tmp);
-			bit = 128;
-			bit_counter = 0;
 		}
 	}
 	if (signum == SIGUSR1)
@@ -103,8 +110,6 @@ int	main(void)
 	int					server_pid;
 	struct sigaction	sa;
 
-	g_text = malloc(sizeof(char)*1);
-	g_text[0] = '\0';
 	server_pid = getpid();
 	set_signals(handler, sa);
 	printf("Server PID: %d\n", server_pid);
