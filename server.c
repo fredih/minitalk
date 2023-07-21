@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 12:20:51 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:31:53 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 
 	if (text_index == 0 && bit == 128)
 	{
-		write(1,"Setting malloc!", 16);
 		g_text = malloc(sizeof(char)*1);
 		g_text[0] = '\0';
 	}
@@ -47,7 +46,6 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 		bit_counter = 0;
 		if (g_text[text_index] == '\0')
 		{
-			write(1, "\n", 1);
 			write(1, g_text, text_index + 1);
 			write(1, "\n", 1);
 			free(g_text);
@@ -67,30 +65,14 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 	if (signum == SIGUSR1)
 	{
 		g_text[text_index] = g_text[text_index] | bit;
-		write(1, "Received SIGUSR1!", 18);
-		write(1, "\n", 1);
-		// counterw = bit;
-		// printf("\n"BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(bit));
-		// write(1, g_text, 2);
-		write(1, "\n", 1);
 		bit = bit >> 1;
 		bit_counter++;
-		// counterw++;
 		pause();
 	}
 	if (signum == SIGUSR2)
 	{
-		// printf("\n"BYTE_TO_BINARY_PATTERN,BYTE_TO_BINARY(bit));
-		write(1, "Received SIGUSR2!", 18);
-		write(1, "\n", 1);
-		// write(1, g_text, 2);
-
-		// counterw = bit;
-		// write(1, &(counterw), 1);
-		write(1, "\n", 1);
 		bit = bit >> 1;
 		bit_counter++;
-		// counterw++;
 		pause();
 	}
 	write(2, "Error! Must use SIGUSR1 or SIGUSR2!\n", 37);
@@ -118,19 +100,3 @@ int	main(void)
 	return (0);
 }
 
-
-// int	main(void)
-// {
-// 	int	server_pid;
-// 	struct sigaction new_action;
-
-// 	new_action.sa_handler = handler;
-// 	server_pid = getpid();
-// 	printf("Server PID: %d\n", server_pid);
-// 	sigaction (SIGUSR1, &new_action, NULL);
-// 	// while(1)
-// 	// 	continue;
-// 	// signal(SIGUSR1, my_handler);
-// 	pause();
-// 	return (0);
-// }

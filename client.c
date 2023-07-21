@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:25:38 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 10:51:22 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:30:06 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,13 @@ void	send_char(char c, int server_pid)
 	bitmask = 128;
 	while (bitmask != 0)
 	{
-		usleep(1000);
+		usleep(500);
 		if (bitmask & c)
-		{
 			kill(server_pid, SIGUSR1);
-			write(1, "1", 1);
-		}
 		else
-		{
 			kill(server_pid, SIGUSR2);
-			write(1, "0", 1);
-		}
 		bitmask = bitmask >> 1;
 	}
-	write(1, "\n", 1);
 }
 
 int	main(int argc, char *argv[] )
@@ -59,10 +52,5 @@ int	main(int argc, char *argv[] )
 	usleep(1000);
 	kill(server_pid, SIGUSR1);
 	pause();
-	// if (*argv[2] == '1')
-	// 	kill(server_pid, SIGUSR1);
-	// if (*argv[2] == '2')
-	// 	kill(server_pid, SIGUSR2);
-	// printf("%s\n",argv[2]);
 	return (0);
 }
