@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:25:38 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 10:02:22 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 10:51:22 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	main(int argc, char *argv[] )
 	send_char('\0', server_pid);
 	usleep(1000);
 	kill(server_pid, SIGUSR1);
+	pause();
 	// if (*argv[2] == '1')
 	// 	kill(server_pid, SIGUSR1);
 	// if (*argv[2] == '2')

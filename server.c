@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/07/21 09:49:03 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:11:50 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 			write(1, g_text, text_index + 1);
 			write(1, "\n", 1);
 			free(g_text);
+			kill(info->si_pid, SIGUSR2);
 			exit(0);
 		}
 		else
@@ -91,8 +92,8 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 void	set_signals(void (*hndlr)(int, siginfo_t*, void*), struct sigaction sa)
 {
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = hndlr;
-	sa.sa_flags = SA_NODEFER;
+	sa.sa_sigaction = hndlr;
+	sa.sa_flags = SA_NODEFER | SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 }
