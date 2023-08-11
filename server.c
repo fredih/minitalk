@@ -6,10 +6,11 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 18:28:22 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:41:20 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
@@ -35,7 +36,7 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 
 	if (text_index == 0 && bit == 128)
 	{
-		g_text = calloc(sizeof(char), 1);
+		g_text = ft_calloc(sizeof(char), 1);
 	}
 	if (bit == 0)
 	{
@@ -47,7 +48,8 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 		}
 		text_index++;
 		tmp = g_text;
-		g_text = calloc(sizeof(char), text_index + 1);
+		g_text = malloc(sizeof(char)*(text_index + 1));
+		g_text[text_index] = 0;
 		strncpy(g_text, tmp, text_index);
 		free(tmp);
 	}
