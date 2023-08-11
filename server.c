@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 18:41:20 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:55:22 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,22 @@
 #include <string.h>
 
 char*	g_text;
+
+void	set_text(size_t text_index)
+{
+	char	*tmp;
+
+	tmp = g_text;
+	g_text = malloc(sizeof(char) * (text_index + 1));
+	if (!g_text)
+	{
+		free(tmp);
+		exit(EXIT_FAILURE);
+	}
+	g_text[text_index] = 0;
+	strncpy(g_text, tmp, text_index);
+	free(tmp);
+}
 
 size_t	print_free_and_kill(size_t text_index, siginfo_t *info)
 {
@@ -31,7 +47,6 @@ size_t	print_free_and_kill(size_t text_index, siginfo_t *info)
 void	handler(int signum, siginfo_t *info, void *ucontext)
 {
 	static unsigned char	bit = 128;
-	char					*tmp;
 	static size_t			text_index = 0;
 
 	if (text_index == 0 && bit == 128)
@@ -47,11 +62,7 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 			return ;
 		}
 		text_index++;
-		tmp = g_text;
-		g_text = malloc(sizeof(char)*(text_index + 1));
-		g_text[text_index] = 0;
-		strncpy(g_text, tmp, text_index);
-		free(tmp);
+		set_text(text_index);
 	}
 	if (signum == SIGUSR1)
 		g_text[text_index] = g_text[text_index] | bit;
