@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 15:49:31 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:28:22 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 char*	g_text;
 
-void	print_free_and_kill(size_t text_index, siginfo_t *info)
+size_t	print_free_and_kill(size_t text_index, siginfo_t *info)
 {
 	write(1, g_text, text_index + 1);
 	write(1, "\n", 1);
@@ -42,7 +42,7 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 		bit = 128;
 		if (g_text[text_index] == '\0')
 		{
-			print_free_and_kill(text_index, info);
+			text_index = print_free_and_kill(text_index, info);
 			return ;
 		}
 		text_index++;
