@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 18:55:22 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 18:57:20 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_text(size_t text_index)
 		exit(EXIT_FAILURE);
 	}
 	g_text[text_index] = 0;
-	strncpy(g_text, tmp, text_index);
+	ft_memcpy(g_text, tmp, text_index);
 	free(tmp);
 }
 
