@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:25:38 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 14:52:56 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:52:04 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char *argv[] )
 	server_pid = atoi(argv[1]);
 	if (argc != 3)
 	{
-		write(2,"Error: Only two arguments are expected!", 40);
+		write(2, "Error: Only two arguments are expected!", 40);
 		exit(EXIT_FAILURE);
 	}
 	str_index = 0;

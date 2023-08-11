@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 15:31:30 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:49:31 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 
 char*	g_text;
 
+void	print_free_and_kill(size_t text_index, siginfo_t *info)
+{
+	write(1, g_text, text_index + 1);
+	write(1, "\n", 1);
+	free(g_text);
+	kill(info->si_pid, SIGUSR2);
+	text_index = 0;
+}
+
 void	handler(int signum, siginfo_t *info, void *ucontext)
 {
 	static unsigned char	bit = 128;
@@ -27,30 +36,22 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 	if (text_index == 0 && bit == 128)
 	{
 		g_text = calloc(sizeof(char), 1);
-		g_text[0] = '\0';
 	}
 	if (bit == 0)
 	{
 		bit = 128;
 		if (g_text[text_index] == '\0')
 		{
-			write(1, g_text, text_index + 1);
-			write(1, "\n", 1);
-			free(g_text);
-			kill(info->si_pid, SIGUSR2);
-			text_index = 0;
+			print_free_and_kill(text_index, info);
 			return ;
 		}
-		else
-		{
-			text_index++;
-			tmp = g_text;
-			g_text = calloc(sizeof(char), text_index + 1);
-			strncpy(g_text, tmp, text_index);
-			free(tmp);
-		}
+		text_index++;
+		tmp = g_text;
+		g_text = calloc(sizeof(char), text_index + 1);
+		strncpy(g_text, tmp, text_index);
+		free(tmp);
 	}
-	if  (signum == SIGUSR1)
+	if (signum == SIGUSR1)
 		g_text[text_index] = g_text[text_index] | bit;
 	bit = bit >> 1;
 }
@@ -72,8 +73,7 @@ int	main(void)
 	server_pid = getpid();
 	set_signals(handler, sa);
 	printf("Server PID: %d\n", server_pid);
-	while(1)
+	while (1)
 		pause();
 	return (0);
 }
-
