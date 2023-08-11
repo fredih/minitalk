@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 18:57:20 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/11 19:01:09 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 	if (text_index == 0 && bit == 128)
 	{
 		g_text = ft_calloc(sizeof(char), 1);
+		if (!g_text)
+			exit(EXIT_FAILURE);
 	}
 	if (bit == 0)
 	{
