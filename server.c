@@ -6,7 +6,7 @@
 /*   By: aantonio <aantonio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 12:33:50 by aantonio          #+#    #+#             */
-/*   Updated: 2023/08/11 19:01:09 by aantonio         ###   ########.fr       */
+/*   Updated: 2023/08/12 15:50:11 by aantonio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_text(size_t text_index)
 		exit(EXIT_FAILURE);
 	}
 	g_text[text_index] = 0;
-	ft_memcpy(g_text, tmp, text_index);
+	memcpy(g_text, tmp, text_index);
 	free(tmp);
 }
 
@@ -40,7 +40,7 @@ size_t	print_free_and_kill(size_t text_index, siginfo_t *info)
 	write(1, g_text, text_index + 1);
 	write(1, "\n", 1);
 	free(g_text);
-	kill(info->si_pid, SIGUSR2);
+	// kill(info->si_pid, SIGUSR2);
 	text_index = 0;
 }
 
@@ -51,7 +51,7 @@ void	handler(int signum, siginfo_t *info, void *ucontext)
 
 	if (text_index == 0 && bit == 128)
 	{
-		g_text = ft_calloc(sizeof(char), 1);
+		g_text = calloc(sizeof(char), 1);
 		if (!g_text)
 			exit(EXIT_FAILURE);
 	}
